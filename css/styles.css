@@ -1,0 +1,114 @@
+/* Add your custom CSS for styling here */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #007BFF;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    font-size: 24px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 20px;
+}
+
+#weather-container {
+    display: flex;
+    align-items: center;
+}
+
+#weather-icon {
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+}
+
+#weather-details {
+    font-size: 24px;
+}
+
+#news-headlines {
+    list-style: none;
+    padding: 0;
+}
+
+.news-item {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.news-image {
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+}
+
+.news-title {
+    font-size: 18px;
+}
+
+/* Mobile view styles */
+@media (max-width: 768px) {
+    header {
+        padding: 10px;
+        font-size: 20px;
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    #weather-icon {
+        width: 60px;
+        height: 60px;
+        margin-right: 10px;
+    }
+
+    #weather-details {
+        font-size: 18px;
+    }
+
+    .news-image {
+        width: 60px;
+        height: 60px;
+        margin-right: 10px;
+    }
+
+    .news-title {
+        font-size: 16px;
+    }
+}
+
+/* Style the buttons */
+button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}

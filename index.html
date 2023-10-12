@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather and News App</title>
+
+    <!-- Add your manifest file for PWA features -->
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- Add your PWA icons for different screen sizes -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+    <header>
+        Weather / News App
+    </header>
+    <div class="container">
+        <!-- <h2>Weather Forecast</h2> -->
+        <!-- Add input field for city selection -->
+        <label for="city-input">Enter City: </label>
+        <input type="text" id="city-input" placeholder="Enter city name">
+        <button id="get-weather">Get Weather</button>
+
+        <br>
+        <br>
+        <!-- Add input field for country selection -->
+        <label for="country-input">Enter Country: </label>
+        <input type="text" id="country-input" placeholder="Enter country code (e.g., 'us')">
+        <button id="get-news">Get News</button>
+    </div>
+
+    <div class="container">
+        <h2>Weather Forecast</h2>
+        <div id="weather-container">
+            <img id="weather-icon"
+                src="https://cdn2.iconfinder.com/data/icons/weather-365/64/weather-sun-cloud-rain-512.png"
+                alt="Weather Icon">
+            <div id="weather-details">
+                <!-- Weather data will be displayed here -->
+            </div>
+        </div>
+
+        <h2>News Headlines</h2>
+        <ul id="news-headlines">
+            <!-- News headlines will be displayed here -->
+        </ul>
+    </div>
+
+    <!-- Add your JavaScript code to fetch weather and news data -->
+    <script>
+        document.getElementById('get-weather').addEventListener('click', function () {
+            const city = document.getElementById('city-input').value;
+            if (city) {
+                fetchWeatherData(city);
+            }
+        });
+
+        document.getElementById('get-news').addEventListener('click', function () {
+            const country = document.getElementById('country-input').value;
+            if (country) {
+                fetchNewsData(country);
+            }
+        });
+
+        // Function to fetch weather data from OpenWeatherMap
+        async function fetchWeatherData(city) {
+            const apiKey = '820c7be85287f7cd6d2ca841e04013ca'; // Replace with your OpenWeatherMap key
+            const weatherEndpoint = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+
+            try {
+                const response = await fetch(weatherEndpoint);
+                const data = await response.json();
+                const weatherData = {
+                    temperature: data.main.temp,
+                    description: data.weather[0].description,
+                    icon: data.weather[0].icon, // Fetch the weather icon code
+                };
+                displayWeather(weatherData);
+            } catch (error) {
+                console.error('Error fetching weather data:', error);
+            }
+        }
+
+
+        async function fetchNewsData(country) {
+            const apiKey = 'd97e3d390cef4ad9a5393541697a72fc';
+            const newsEndpoint = `https://newsapi.org/v2/top-headlines?country=${country}&apiKey=${apiKey}`;
+
+            try {
+                const response = await fetch(newsEndpoint);
+                const data = await response.json();
+                displayNews(data.articles);
+            } catch (error) {
+                console.error('Error fetching news data:', error);
+            }
+        }
+
+        function displayWeather(weatherData) {
+            const weatherContainer = document.getElementById('weather-container');
+            const weatherIcon = document.getElementById('weather-icon');
+            const weatherDetails = document.getElementById('weather-details');
+
+            // Construct the weather icon URL
+            const iconCode = weatherData.icon;
+            const iconUrl = `https://openweathermap.org/img/w/${iconCode}.png`;
+
+            weatherIcon.src = iconUrl;
+            weatherDetails.innerHTML = `${weatherData.temperature}°C, ${weatherData.description}`;
+        }
+
+
+        function displayNews(articles) {
+            const newsHeadlines = document.getElementById('news-headlines');
+            newsHeadlines.innerHTML = '';
+
+            for (const article of articles) {
+                const listItem = document.createElement('li');
+                listItem.className = 'news-item';
+
+                const newsImage = document.createElement('img');
+                newsImage.className = 'news-image';
+                newsImage.src = article.urlToImage;
+                newsImage.alt = 'News Image';
+
+                const newsTitle = document.createElement('p');
+                newsTitle.className = 'news-title';
+                newsTitle.innerHTML = `<a href="${article.url}" target="_blank">${article.title}</a>`;
+
+                listItem.appendChild(newsImage);
+                listItem.appendChild(newsTitle);
+                newsHeadlines.appendChild(listItem);
+            }
+        }
+    </script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
