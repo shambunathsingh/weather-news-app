@@ -112,3 +112,49 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
+
+
+/* Container for GNEWS articles */
+.newsContainer {
+    margin: 20px;
+    border: 1px solid #ccc;
+    padding: 20px;
+}
+
+/* GNEWS article styles */
+.article {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #f9f9f9;
+}
+
+.article h2 {
+    font-size: 20px;
+}
+
+.article p {
+    font-size: 16px;
+}
+
+.article img {
+    max-width: 100%;
+    height: auto;
+    margin: 10px 0;
+}
+
+.article a {
+    display: inline-block;
+    background-color: #007BFF;
+    color: #fff;
+    padding: 5px 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.article a:hover {
+    background-color: #0056b3;
+}

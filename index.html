@@ -7,7 +7,7 @@
     <title>Weather and News App</title>
 
     <!-- Add your manifest file for PWA features -->
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="./manifest.json">
 
     <!-- Add your PWA icons for different screen sizes -->
     <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
@@ -31,9 +31,9 @@
         <br>
         <br>
         <!-- Add input field for country selection -->
-        <label for="country-input">Enter Country: </label>
+        <!-- <label for="country-input">Enter Country: </label>
         <input type="text" id="country-input" placeholder="Enter country code (e.g., 'us')">
-        <button id="get-news">Get News</button>
+        <button id="get-news">Get News</button> -->
     </div>
 
     <div class="container">
@@ -46,11 +46,15 @@
                 <!-- Weather data will be displayed here -->
             </div>
         </div>
+    </div>
 
+    <div class="newsContainer">
         <h2>News Headlines</h2>
-        <ul id="news-headlines">
-            <!-- News headlines will be displayed here -->
-        </ul>
+        <!-- <div class="container"> -->
+            <div class="news-container">
+                <!-- GNEWS articles will be displayed here -->
+            </div>
+        </div>
     </div>
 
     <!-- Add your JavaScript code to fetch weather and news data -->
@@ -62,12 +66,12 @@
             }
         });
 
-        document.getElementById('get-news').addEventListener('click', function () {
-            const country = document.getElementById('country-input').value;
-            if (country) {
-                fetchNewsData(country);
-            }
-        });
+        // document.getElementById('get-news').addEventListener('click', function () {
+        //     const country = document.getElementById('country-input').value;
+        //     if (country) {
+        //         fetchNewsData(country);
+        //     }
+        // });
 
         // Function to fetch weather data from OpenWeatherMap
         async function fetchWeatherData(city) {
@@ -89,18 +93,18 @@
         }
 
 
-        async function fetchNewsData(country) {
-            const apiKey = 'd97e3d390cef4ad9a5393541697a72fc';
-            const newsEndpoint = `https://newsapi.org/v2/top-headlines?country=${country}&apiKey=${apiKey}`;
+        // async function fetchNewsData(country) {
+        //     const apiKey = 'd97e3d390cef4ad9a5393541697a72fc';
+        //     const newsEndpoint = `https://newsapi.org/v2/top-headlines?country=${country}&apiKey=${apiKey}`;
 
-            try {
-                const response = await fetch(newsEndpoint);
-                const data = await response.json();
-                displayNews(data.articles);
-            } catch (error) {
-                console.error('Error fetching news data:', error);
-            }
-        }
+        //     try {
+        //         const response = await fetch(newsEndpoint);
+        //         const data = await response.json();
+        //         displayNews(data.articles);
+        //     } catch (error) {
+        //         console.error('Error fetching news data:', error);
+        //     }
+        // }
 
         function displayWeather(weatherData) {
             const weatherContainer = document.getElementById('weather-container');
@@ -116,28 +120,70 @@
         }
 
 
-        function displayNews(articles) {
-            const newsHeadlines = document.getElementById('news-headlines');
-            newsHeadlines.innerHTML = '';
+        // function displayNews(articles) {
+        //     const newsHeadlines = document.getElementById('news-headlines');
+        //     newsHeadlines.innerHTML = '';
 
-            for (const article of articles) {
-                const listItem = document.createElement('li');
-                listItem.className = 'news-item';
+        //     for (const article of articles) {
+        //         const listItem = document.createElement('li');
+        //         listItem.className = 'news-item';
 
-                const newsImage = document.createElement('img');
-                newsImage.className = 'news-image';
-                newsImage.src = article.urlToImage;
-                newsImage.alt = 'News Image';
+        //         const newsImage = document.createElement('img');
+        //         newsImage.className = 'news-image';
+        //         newsImage.src = article.urlToImage;
+        //         newsImage.alt = 'News Image';
 
-                const newsTitle = document.createElement('p');
-                newsTitle.className = 'news-title';
-                newsTitle.innerHTML = `<a href="${article.url}" target="_blank">${article.title}</a>`;
+        //         const newsTitle = document.createElement('p');
+        //         newsTitle.className = 'news-title';
+        //         newsTitle.innerHTML = `<a href="${article.url}" target="_blank">${article.title}</a>`;
 
-                listItem.appendChild(newsImage);
-                listItem.appendChild(newsTitle);
-                newsHeadlines.appendChild(listItem);
-            }
-        }
+        //         listItem.appendChild(newsImage);
+        //         listItem.appendChild(newsTitle);
+        //         newsHeadlines.appendChild(listItem);
+        //     }
+        // }
+    </script>
+    <script>
+        // GNEWS API script
+        document.addEventListener('DOMContentLoaded', () => {
+            const apiKey = '499042d167fc15f0ec9ef43bbc3e8061';
+            const apiUrl = `https://gnews.io/api/v4/top-headlines?token=${apiKey}&lang=en`;
+    
+            fetch(apiUrl)
+                .then((response) => response.json())
+                .then((data) => {
+                    const newsContainer = document.querySelector('.news-container');
+                    data.articles.forEach((article) => {
+                        const articleElement = document.createElement('div');
+                        articleElement.classList.add('article');
+    
+                        const titleElement = document.createElement('h2');
+                        titleElement.textContent = article.title;
+    
+                        const descriptionElement = document.createElement('p');
+                        descriptionElement.textContent = article.description;
+    
+                        const imageElement = document.createElement('img');
+                        imageElement.src = article.image; // Use the article's image URL
+                        imageElement.alt = article.title; // Set alt text for accessibility
+    
+                        const linkElement = document.createElement('a');
+                        linkElement.textContent = 'Read More';
+                        linkElement.href = article.url;
+                        linkElement.target = '_blank';
+    
+                        articleElement.appendChild(titleElement);
+                        articleElement.appendChild(descriptionElement);
+                        articleElement.appendChild(imageElement); // Add the image to the article
+                        articleElement.appendChild(linkElement);
+    
+                        newsContainer.appendChild(articleElement);
+                    });
+                })
+                .catch((error) => {
+                    console.error('Error fetching GNEWS data:', error);
+                });
+        });
     </script>
     <script src="js/app.js"></script>
     <script src="service-worker.js"></script>
